@@ -32,4 +32,38 @@ b:Toggle("ESP", function(bool)
 end)
 
 -- Função para ativar/desativar Aimbot
-b:Toggle("Aimbot
+b:Toggle("Aimbot", function(bool)
+    aimbotEnabled = bool
+    if aimbotEnabled then
+        -- Código para ativar Aimbot
+        game:GetService("RunService").RenderStepped:Connect(function()
+            local closestEnemy = nil
+            local shortestDistance = math.huge
+            for _, player in pairs(game.Players:GetPlayers()) do
+                if player.Team ~= game.Players.LocalPlayer.Team and player.Character and player.Character:FindFirstChild("Head") then
+                    local distance = (player.Character.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude
+                    if distance < shortestDistance then
+                        closestEnemy = player
+                        shortestDistance = distance
+                    end
+                end
+            end
+            if closestEnemy then
+                game.Players.LocalPlayer.Character.Head.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, closestEnemy.Character.Head.Position)
+            end
+        end)
+    end
+end)
+
+-- Criar um ícone na tela para acessar o menu
+local ScreenGui = Instance.new("ScreenGui")
+local OpenMenuButton = Instance.new("TextButton")
+
+ScreenGui.Parent = game.CoreGui
+OpenMenuButton.Parent = ScreenGui
+OpenMenuButton.Text = "Abrir Menu"
+OpenMenuButton.Size = UDim2.new(0, 100, 0, 50)
+OpenMenuButton.Position = UDim2.new(0, 10, 0, 10)
+OpenMenuButton.MouseButton1Click:Connect(function()
+    w:Toggle()
+end)
