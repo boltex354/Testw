@@ -32,25 +32,4 @@ b:Toggle("ESP", function(bool)
 end)
 
 -- Função para ativar/desativar Aimbot
-b:Toggle("Aimbot", function(bool)
-    aimbotEnabled = bool
-    if aimbotEnabled then
-        -- Código para ativar Aimbot
-        game:GetService("RunService").RenderStepped:Connect(function()
-            local closestEnemy = nil
-            local shortestDistance = math.huge
-            for _, player in pairs(game.Players:GetPlayers()) do
-                if player.Team ~= game.Players.LocalPlayer.Team and player.Character and player.Character:FindFirstChild("Head") then
-                    local distance = (player.Character.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude
-                    if distance < shortestDistance then
-                        closestEnemy = player
-                        shortestDistance = distance
-                    end
-                end
-            end
-            if closestEnemy then
-                game.Players.LocalPlayer.Character.Head.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, closestEnemy.Character.Head.Position)
-            end
-        end)
-    end
-end)
+b:Toggle("Aimbot
